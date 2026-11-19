@@ -45,6 +45,13 @@
   .row .opts{display:flex;gap:8px;flex-wrap:wrap}
   .row .opts .btn{flex:1;min-width:90px;font-size:15px;padding:10px 6px}
   .row .note{font-size:12px;opacity:.7;margin-top:6px}
+  @media (orientation:landscape) and (max-height:600px){
+    #select .panel{display:grid;grid-template-columns:minmax(0,520px) 200px;justify-content:center;align-content:center;gap:10px 14px}
+    #select .row{width:auto;padding:8px 10px}
+    #select .row .opts .btn{padding:8px 4px}
+    #select #go{grid-column:2;grid-row:1 / 3;width:100% !important;height:100%;margin:0}
+    #select #go img{height:48px !important}
+  }
 
   /* パズル */
   #play .bar{padding:6px 10px}
@@ -57,6 +64,7 @@
   #sums{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 14px;font-size:14px;min-height:20px;padding:0 4px 4px}
   #sums span b{display:inline-block;width:18px;height:18px;border-radius:50%;color:#fff;font-size:11px;text-align:center;line-height:18px;margin-right:3px}
   #side{display:flex;flex-direction:column;gap:6px;flex:none}
+  #side>*{flex:none}
   #msg small{font-size:12px;font-weight:normal;opacity:.85}
   #msg{min-height:24px;text-align:center;font-size:15px;font-weight:bold;line-height:1.35}
   #tray{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;touch-action:none}
@@ -500,33 +508,37 @@ function sceneSVG(o){
   let s=`<image href="img/bg.webp" x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice"/>`;
   const nk=o.kabu.length,Kh=H*(nk===1?0.5:nk===2?0.38:0.3);
   const kin=SZ.kabu_in,kout=SZ.kabu_out,slot=Kh*kin[0]/kin[1];
-  o.kabu.forEach((w,i)=>{
-    const x=12+i*slot*0.92;
-    if(!out){
-      s+=`<g class="${st==='pull'?'shake':''}"><image href="img/kabu_in.webp" x="${x}" y="${G-Kh*0.95}" width="${slot}" height="${Kh}"/>`+(o.nums!==false&&w?numTxt(x+slot*0.36,G-Kh*0.95+Kh*0.72,slot*0.24,w):'')+'</g>';
-    }else{
-      const kw=Kh*0.9,kh=kw*kout[1]/kout[0],y=G-kh+4;
-      s+=`<g class="${st==='pop'?'fly':''}"><image href="img/kabu_out.webp" x="${x}" y="${y}" width="${kw}" height="${kh}"/>`+(o.nums!==false&&w?numTxt(x+kw*0.34,y+kh*0.41,kw*0.17,w):'')+'</g>';
-    }
-  });
   const pose=st==='pull'||st==='pop'?'pl':st==='fall'?'fa':'st';
   const U=H*0.5;let nz=0;
   const items=o.members.map(c=>{const sp=spr(pose,c.t,c.t==='nezumi'&&nz++>0);const h=U*sp.rel;return {c,sp,h,w:h*sp.ar}});
   const start=12+(nk-1)*slot*0.92+slot*0.9+4;
   let lv=null;if(o.leave){const sp=spr('bk',o.leave);const h=U*sp.rel;lv={sp,h,w:h*sp.ar}}
-  const avail=W-start-10-(lv?lv.w+16:0);
   const adv=pose==='pl'?0.82:pose==='fa'?0.86:0.94;
   const tot=items.reduce((a,b,i)=>a+b.w*(i===items.length-1?1:adv),0);
   const sc=Math.min(1,(W-start-10)/((tot+(lv?lv.w+16:0))||1));
+  // まとまり(カブ+家族)を、帰る人を除いた場所の真ん中に置く
+  const groupR=start+tot*sc, region=W-(lv?lv.w*sc+26:0);
+  const ox=Math.max(0,(region-groupR-12)/2);
+  let g='';
+  o.kabu.forEach((w,i)=>{
+    const x=12+i*slot*0.92;
+    if(!out){
+      g+=`<g class="${st==='pull'?'shake':''}"><image href="img/kabu_in.webp" x="${x}" y="${G-Kh*0.95}" width="${slot}" height="${Kh}"/>`+(o.nums!==false&&w?numTxt(x+slot*0.36,G-Kh*0.95+Kh*0.72,slot*0.24,w):'')+'</g>';
+    }else{
+      const kw=Kh*0.9,kh=kw*kout[1]/kout[0],y=G-kh+4;
+      g+=`<g class="${st==='pop'?'fly':''}"><image href="img/kabu_out.webp" x="${x}" y="${y}" width="${kw}" height="${kh}"/>`+(o.nums!==false&&w?numTxt(x+kw*0.34,y+kh*0.41,kw*0.17,w):'')+'</g>';
+    }
+  });
   let cx=start;
   items.forEach((it,i)=>{
     const w=it.w*sc,h=it.h*sc,x=cx;cx+=w*adv;
     const cls=st==='pull'?'jig':st==='pop'?'lean':'';
-    s+=`<g class="${cls}" style="animation-delay:${-(i%3)*0.1}s"><image href="${it.sp.href}" x="${x}" y="${G-h+(pose==='fa'?6:0)}" width="${w}" height="${h}"/></g>`;
+    g+=`<g class="${cls}" style="animation-delay:${-(i%3)*0.1}s"><image href="${it.sp.href}" x="${x}" y="${G-h+(pose==='fa'?6:0)}" width="${w}" height="${h}"/></g>`;
     const mx=x+w/2;
-    if(o.nums!==false&&it.c.w)s+=lbl(mx,G+10,it.c.w);
-    if(o.marks&&o.marks[it.c.t])s+=`<text x="${mx}" y="${G-h-4}" text-anchor="middle" font-size="30" font-weight="800" fill="#d6451f" stroke="#fff" stroke-width="5" paint-order="stroke" class="pop">${o.marks[it.c.t]}</text>`;
+    if(o.nums!==false&&it.c.w)g+=lbl(mx,G+10,it.c.w);
+    if(o.marks&&o.marks[it.c.t])g+=`<text x="${mx}" y="${G-h-4}" text-anchor="middle" font-size="30" font-weight="800" fill="#d6451f" stroke="#fff" stroke-width="5" paint-order="stroke" class="pop">${o.marks[it.c.t]}</text>`;
   });
+  s+=`<g transform="translate(${ox},0)">${g}</g>`;
   if(lv){const h=lv.h*sc,w=lv.w*sc;s+=`<g class="walk"><image href="${lv.sp.href}" x="${W-w-10}" y="${G-h}" width="${w}" height="${h}"/></g>`}
   const fx=(n,wd,y)=>{const z=SZ[n],h=wd*z[1]/z[0];return `<image class="pop" href="img/${n}.webp" x="${W/2-wd/2}" y="${y}" width="${wd}" height="${h}"/>`};
   if(st==='pull'&&o.unto)s+=fx('t_unto',Math.min(W*0.4,300),H*0.06);
