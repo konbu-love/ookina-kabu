@@ -10,7 +10,9 @@
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
   html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;overflow:hidden;touch-action:manipulation}
   button{font-family:inherit;color:var(--ink)}
-  .screen{position:fixed;inset:0;display:none;flex-direction:column}
+  #root{position:fixed;left:0;top:0;width:100%;height:100%;overflow:hidden;--vw:1vw}
+  #root.rot{transform-origin:0 0}
+  .screen{position:absolute;inset:0;display:none;flex-direction:column}
   .screen.on{display:flex}
   .btn{padding:12px 16px;border-radius:14px;border:2px solid var(--ink);background:#fff;font-size:16px;font-weight:bold}
   .btn:active{background:#f0e4c4}
@@ -22,36 +24,31 @@
   #title{align-items:center;justify-content:center;gap:12px;padding:16px;overflow:auto}
   #title h1{margin:0;font-size:30px;text-align:center;line-height:1.3}
   #title .sub{font-size:14px;opacity:.75;text-align:center}
-  #title .menu{display:flex;flex-direction:column;gap:10px;width:min(320px,90vw)}
+  #title .menu{display:flex;flex-direction:column;gap:10px;width:min(320px,calc(var(--vw,1vw)*90))}
   #title .gear{position:absolute;top:10px;right:10px;width:auto;height:auto;border-radius:14px;padding:4px 10px;background:#fff}
   #title .gear img{height:30px;display:block}
   .imgbtn img{height:30px;display:block;margin:0 auto}
-  #titleArt{width:min(380px,84vw);height:auto;border-radius:16px;box-shadow:0 3px 10px rgba(80,60,30,.2)}
-  #logo{width:min(340px,80vw);height:auto;display:block}
-  @media (orientation:landscape) and (max-height:520px){
-    #title{flex-direction:row;gap:24px}
-    #title .left{display:flex;flex-direction:column;align-items:center;gap:6px}
-    #titleArt{width:min(300px,42vw)}
-    #logo{width:min(280px,40vw)}
-    #title h1{font-size:24px}
-  }
+  #titleArt{width:min(380px,calc(var(--vw,1vw)*84));height:auto;border-radius:16px;box-shadow:0 3px 10px rgba(80,60,30,.2)}
+  #logo{width:min(340px,calc(var(--vw,1vw)*80));height:auto;display:block}
+  .eland.short #title{flex-direction:row;gap:24px}
+  .eland.short #title .left{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .eland.short #titleArt{width:min(300px,calc(var(--vw,1vw)*42))}
+  .eland.short #logo{width:min(280px,calc(var(--vw,1vw)*40))}
 
   /* 設定・選択 */
   .panel{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;align-items:center;gap:14px}
   .bar{display:flex;align-items:center;gap:10px;padding:10px 12px;flex:none}
   .bar h2{margin:0;font-size:19px;flex:1}
-  .row{width:min(460px,94vw);background:#fff8e8;border:2px solid #e9d9b0;border-radius:14px;padding:10px 12px}
+  .row{width:min(460px,calc(var(--vw,1vw)*94));background:#fff8e8;border:2px solid #e9d9b0;border-radius:14px;padding:10px 12px}
   .row .lab{font-weight:bold;margin-bottom:8px;font-size:16px}
   .row .opts{display:flex;gap:8px;flex-wrap:wrap}
   .row .opts .btn{flex:1;min-width:90px;font-size:15px;padding:10px 6px}
   .row .note{font-size:12px;opacity:.7;margin-top:6px}
-  @media (orientation:landscape) and (max-height:600px){
-    #select .panel{display:grid;grid-template-columns:minmax(0,520px) 200px;justify-content:center;align-content:center;gap:10px 14px}
-    #select .row{width:auto;padding:8px 10px}
-    #select .row .opts .btn{padding:8px 4px}
-    #select #go{grid-column:2;grid-row:1 / 3;width:100% !important;height:100%;margin:0}
-    #select #go img{height:48px !important}
-  }
+  .eland.short6 #select .panel{display:grid;grid-template-columns:minmax(0,520px) 200px;justify-content:center;align-content:center;gap:10px 14px}
+  .eland.short6 #select .row{width:auto;padding:8px 10px}
+  .eland.short6 #select .row .opts .btn{padding:8px 4px}
+  .eland.short6 #select #go{grid-column:2;grid-row:1 / 3;width:100% !important;height:100%;margin:0}
+  .eland.short6 #select #go img{height:48px !important}
 
   /* パズル */
   #play .bar{padding:6px 10px}
@@ -79,18 +76,15 @@
   .chr.on .b{display:flex}
   #pbtns{display:flex;gap:8px}
   #pbtns .btn{flex:1;padding:9px 6px;font-size:14px}
-  @media (orientation:landscape){
-    #pmain{flex-direction:row}
-    #side{width:min(42%,330px);overflow:auto}
-    #tray{grid-template-columns:repeat(4,1fr)}
-    .chr .f{width:36px;height:36px}
-    .chr{padding:2px}
-  }
-  #ghost{position:fixed;left:0;top:0;pointer-events:none;z-index:50;display:none;text-align:center;transform:translate(-50%,-85%);filter:drop-shadow(0 3px 3px rgba(0,0,0,.3))}
+  .eland #pmain{flex-direction:row}
+  .eland #side{width:min(42%,330px);overflow:auto}
+  .eland .chr .f{width:36px;height:36px}
+  .eland .chr{padding:2px}
+  #ghost{position:fixed;left:0;top:0;--r:0deg;pointer-events:none;z-index:50;display:none;text-align:center;transform:rotate(var(--r)) translate(-50%,-85%);transform-origin:0 0;filter:drop-shadow(0 3px 3px rgba(0,0,0,.3))}
   #ghost img{width:56px;height:56px;display:block}
   #ghost b{display:block;font-size:14px;background:#fff;border-radius:10px;border:2px solid var(--ink);padding:0 6px;margin:-4px auto 0;width:max-content}
   #toast{position:fixed;left:0;right:0;top:30%;text-align:center;display:none;z-index:60;pointer-events:none}
-  #toast img{width:min(300px,70vw);filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
+  #toast img{width:min(300px,calc(var(--vw,1vw)*70));filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
 
   /* シーン(紙芝居) */
   #scene{background:#a9cbe4}
@@ -102,9 +96,7 @@
   #cap .next{position:absolute;right:12px;bottom:6px;font-size:14px;opacity:.6;animation:blink 1s steps(2) infinite}
   #cap .btns{display:flex;gap:10px;justify-content:center}
   @keyframes blink{50%{opacity:0}}
-  @media (orientation:landscape) and (max-height:520px){
-    #cap{font-size:17px;min-height:70px;padding:8px 14px}
-  }
+  .eland.short #cap{font-size:17px;min-height:70px;padding:8px 14px 18px}
 
   /* シーン内のうごき(カクカク) */
   .jig{animation:jig .32s steps(2) infinite;transform-box:fill-box;transform-origin:50% 100%}
@@ -122,6 +114,7 @@
 </style>
 </head>
 <body>
+<div id="root">
 
 <!-- タイトル -->
 <section id="title" class="screen">
@@ -144,6 +137,7 @@
   <div class="panel">
     <div class="row"><div class="lab" id="lFx"></div><div class="opts" data-set="fx"><button class="btn" data-v="1">ON</button><button class="btn" data-v="0">OFF</button></div><div class="note" id="nFx"></div></div>
     <div class="row"><div class="lab">もじ</div><div class="opts" data-set="kanji"><button class="btn" data-v="1">1ねんせいの かん字</button><button class="btn" data-v="0">ぜんぶ ひらがな</button></div></div>
+    <div class="row"><div class="lab">📱 がめんの むき</div><div class="opts" data-set="orient"><button class="btn" data-v="land">よこ</button><button class="btn" data-v="port">たて</button><button class="btn" data-v="auto">じどう</button></div><div class="note">よこ・たては、スマホを まわしても むきが かわりません。</div></div>
     <div class="row"><div class="lab" id="lSnd"></div><div class="opts" data-set="sound"><button class="btn" data-v="1">ON</button><button class="btn" data-v="0">OFF</button></div></div>
   </div>
 </section>
@@ -154,7 +148,7 @@
   <div class="panel">
     <div class="row"><div class="lab">てんびんの かたち</div><div class="opts" data-pick="shape"></div></div>
     <div class="row"><div class="lab" id="lSize"></div><div class="opts" data-pick="size"></div></div>
-    <button class="btn imgbtn" id="go" style="width:min(460px,94vw)"><img src="img/b_start.webp" alt="スタート" style="height:40px"></button>
+    <button class="btn imgbtn" id="go" style="width:min(460px,calc(var(--vw,1vw)*94))"><img src="img/b_start.webp" alt="スタート" style="height:40px"></button>
   </div>
 </section>
 
@@ -177,6 +171,7 @@
   <div id="sbox"><svg id="ssvg" viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet"></svg><div id="cap"></div></div>
 </section>
 
+</div><!-- root -->
 <div id="ghost"></div>
 <div id="toast"><img src="img/b_clear.webp" alt="クリア！"></div>
 
@@ -196,7 +191,7 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 
 /* 設定(次回も保持) */
-let S={fx:1,kanji:1,sound:1,shape:'1',size:'s'};
+let S={fx:1,kanji:1,sound:1,shape:'1',size:'s',orient:'land'};
 try{Object.assign(S,JSON.parse(localStorage.getItem('kabu-set')||'{}'))}catch(e){}
 function saveS(){try{localStorage.setItem('kabu-set',JSON.stringify(S))}catch(e){}}
 /* 文字: [1年漢字版, ひらがな版] */
@@ -208,6 +203,38 @@ let AC=null;
 function ac(){if(!S.sound)return null;try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC}catch(e){return null}}
 function tone(f1,f2,dur,type='square',vol=.12){const a=ac();if(!a)return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(f1,a.currentTime);o.frequency.exponentialRampToValueAtTime(f2,a.currentTime+dur);g.gain.setValueAtTime(vol,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+dur);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+dur)}
 const SND={put:()=>tone(520,780,.08,'triangle'),off:()=>tone(500,300,.08,'triangle'),pull:()=>tone(160,120,.18,'sawtooth',.06),pop:()=>{tone(220,1400,.35,'square',.12)},thud:()=>tone(140,50,.25,'sine',.25),ok:()=>{tone(660,660,.1,'triangle');setTimeout(()=>tone(990,990,.15,'triangle'),110)},bad:()=>tone(200,150,.15,'sawtooth',.05)};
+
+/* ================= 画面の向き ================= */
+let ROT=false;
+function applyOrient(){
+  const vw=window.innerWidth,vh=window.innerHeight,port=vh>vw,r=$('#root');
+  ROT=(S.orient==='land'&&port)||(S.orient==='port'&&!port);
+  const W=ROT?vh:vw,H=ROT?vw:vh;
+  r.classList.toggle('rot',ROT);
+  r.style.width=W+'px';r.style.height=H+'px';
+  r.style.transform=ROT?'rotate(90deg) translateY(-100%)':'';
+  r.style.setProperty('--vw',(W/100)+'px');
+  r.classList.toggle('eland',W>H);r.classList.toggle('short',H<=520);r.classList.toggle('short6',H<=600);
+  $('#ghost').style.setProperty('--r',ROT?'90deg':'0deg');
+  $('#toast').style.transform=ROT?`translate(${vw/2}px,${vh/2}px) rotate(90deg) translate(-50%,-50%)`:'';
+  $('#toast').style.left=ROT?'0':'';$('#toast').style.top=ROT?'0':'';$('#toast').style.right=ROT?'auto':'';
+  if(lastScene&&$('#scene').classList.contains('on'))setScene(...lastScene);
+}
+/* 全画面にして向きを固定(できる端末だけ) */
+function lockOrient(){
+  if(S.orient==='auto')return;
+  const want=S.orient==='land'?'landscape':'portrait';
+  const lock=()=>{try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock(want).then(()=>setTimeout(applyOrient,300)).catch(()=>{})}catch(e){}};
+  try{
+    const d=document.documentElement;
+    if(!document.fullscreenElement&&d.requestFullscreen)d.requestFullscreen({navigationUI:'hide'}).then(lock).catch(()=>{});
+    else lock();
+  }catch(e){}
+}
+window.addEventListener('resize',()=>setTimeout(applyOrient,60));
+window.addEventListener('orientationchange',()=>setTimeout(applyOrient,200));
+/* 画面座標 → root の中の座標 */
+const toRoot=(cx,cy)=>ROT?{x:cy,y:window.innerWidth-cx}:{x:cx,y:cy};
 
 /* ================= 画面切替 ================= */
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));}
@@ -224,9 +251,9 @@ function goTitle(){
   show('title');
 }
 $('#toSet').onclick=()=>{renderSettings();show('settings')};
-$('#mStory').onclick=()=>{ac();startStory()};
-$('#mPractice').onclick=()=>{ac();openSelect('practice')};
-$('#mYaruki').onclick=()=>{ac();openSelect('yaruki')};
+$('#mStory').onclick=()=>{ac();lockOrient();startStory()};
+$('#mPractice').onclick=()=>{ac();lockOrient();openSelect('practice')};
+$('#mYaruki').onclick=()=>{ac();lockOrient();openSelect('yaruki')};
 
 function renderSettings(){
   $('#lFx').textContent=T(['🎬 カブを ぬく えんしゅつ','🎬 カブを ぬく えんしゅつ']);
@@ -236,7 +263,7 @@ function renderSettings(){
     const k=box.dataset.set;
     box.querySelectorAll('button').forEach(b=>{
       b.classList.toggle('sel',String(S[k])===b.dataset.v);
-      b.onclick=()=>{S[k]=+b.dataset.v;saveS();renderSettings();if(k==='sound'&&S.sound)SND.ok()};
+      b.onclick=()=>{S[k]=k==='orient'?b.dataset.v:+b.dataset.v;if(k==='orient'){applyOrient();lockOrient()}saveS();renderSettings();if(k==='sound'&&S.sound)SND.ok()};
     });
   });
   document.querySelector('[data-set="kanji"] button').textContent=S.kanji?'1ねんせいの 漢字':'1ねんせいの かん字';
@@ -540,19 +567,21 @@ function sceneSVG(o){
   });
   s+=`<g transform="translate(${ox},0)">${g}</g>`;
   if(lv){const h=lv.h*sc,w=lv.w*sc;s+=`<g class="walk"><image href="${lv.sp.href}" x="${W-w-10}" y="${G-h}" width="${w}" height="${h}"/></g>`}
-  const fx=(n,wd,y)=>{const z=SZ[n],h=wd*z[1]/z[0];return `<image class="pop" href="img/${n}.webp" x="${W/2-wd/2}" y="${y}" width="${wd}" height="${h}"/>`};
-  if(st==='pull'&&o.unto)s+=fx('t_unto',Math.min(W*0.4,300),H*0.06);
-  if(st==='pop')s+=fx('t_spon',Math.min(W*0.46,330),H*0.04);
-  if(st==='fall')s+=fx('t_dosin',Math.min(W*0.32,240),H*0.08);
+  const fx=(n,hh,y)=>{const z=SZ[n],wd=Math.min(hh*z[0]/z[1],W*0.6),h=wd*z[1]/z[0];return `<image class="pop" href="img/${n}.webp" x="${W/2-wd/2}" y="${y}" width="${wd}" height="${h}"/>`};
+  if(st==='pull'&&o.unto)s+=fx('t_unto',H*0.2,H*0.06);
+  if(st==='pop')s+=fx('t_spon',H*0.34,H*0.01);
+  if(st==='fall')s+=fx('t_dosin',H*0.24,H*0.05);
   if(o.calc)s+=`<rect x="${W/2-150}" y="${H*0.08}" width="300" height="56" rx="16" fill="#fffaf0" stroke="#4a3a28" stroke-width="3"/><text x="${W/2}" y="${H*0.08+40}" text-anchor="middle" font-size="32" font-weight="800" fill="#4a3a28">${o.calc}</text>`;
   return s;
 }
 
+let lastScene=null;
 let sceneTap=null,sceneSkip=null,sceneToken=0;
 function stopAll(){sceneToken++;cancelWait();sceneSkip=null;locked=true}
 function setScene(o,text,opt={}){
   $('#cap').innerHTML='<div>'+(text||'')+'</div>';
-  const sv=$('#ssvg'),r=sv.getBoundingClientRect(),a=r.width&&r.height?r.width/r.height:16/9;
+  lastScene=[o,text,opt];
+  const sv=$('#ssvg'),r=sv.getBoundingClientRect(),rw=ROT?r.height:r.width,rh=ROT?r.width:r.height,a=rw&&rh?rw/rh:16/9;
   let W=640,H=360;if(a>=16/9)W=Math.round(360*a);else H=Math.min(560,Math.round(640/a));
   o.w=W;o.h=H;
   sv.setAttribute('viewBox',`0 0 ${W} ${H}`);
@@ -659,6 +688,7 @@ function storyEnd(){
 }
 
 /* ================= 起動 ================= */
+applyOrient();
 goTitle();
 </script>
 </body>
