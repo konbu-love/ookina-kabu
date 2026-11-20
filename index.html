@@ -31,6 +31,7 @@
   .btn.pri{background:var(--ink);color:#fff}
   .btn.sel{background:#5a8f3a;border-color:#3c6a22;color:#fff}
   .icon{width:42px;height:42px;border-radius:50%;border:2px solid var(--ink);background:#fff;font-size:18px;font-weight:bold;flex:none}
+  .icon.back{width:auto;border-radius:21px;padding:0 14px;font-size:16px;white-space:nowrap}
 
   /* タイトル */
   #title{align-items:center;justify-content:center;gap:12px;padding:16px;overflow:auto}
@@ -145,7 +146,7 @@
 
 <!-- 設定 -->
 <section id="settings" class="screen">
-  <div class="bar"><button class="icon" data-back>◀</button><h2>⚙ せってい</h2></div>
+  <div class="bar"><button class="icon back" data-back>◀ もどる</button><h2>⚙ せってい</h2></div>
   <div class="panel">
     <div class="row"><div class="lab" id="lFx"></div><div class="opts" data-set="fx"><button class="btn" data-v="1">ON</button><button class="btn" data-v="0">OFF</button></div><div class="note" id="nFx"></div></div>
     <div class="row"><div class="lab">もじ</div><div class="opts" data-set="kanji"><button class="btn" data-v="1">1ねんせいの かん字</button><button class="btn" data-v="0">ぜんぶ ひらがな</button></div></div>
@@ -156,7 +157,7 @@
 
 <!-- モード選択 -->
 <section id="select" class="screen">
-  <div class="bar"><button class="icon" data-back>◀</button><h2 id="selTitle"></h2></div>
+  <div class="bar"><button class="icon back" data-back>◀ もどる</button><h2 id="selTitle"></h2></div>
   <div class="panel">
     <div class="row"><div class="lab">てんびんの かたち</div><div class="opts" data-pick="shape"></div></div>
     <div class="row"><div class="lab" id="lSize"></div><div class="opts" data-pick="size"></div></div>
@@ -166,7 +167,7 @@
 
 <!-- パズル -->
 <section id="play" class="screen">
-  <div class="bar"><button class="icon" id="playBack">◀</button><h2 id="playTitle"></h2><div id="cnt"></div></div>
+  <div class="bar"><button class="icon back" id="playBack">◀ もどる</button><h2 id="playTitle"></h2><div id="cnt"></div></div>
   <div id="pmain">
     <div id="stage"><svg id="svg"></svg><div id="sums"></div></div>
     <div id="side">
@@ -179,7 +180,7 @@
 
 <!-- 紙芝居 -->
 <section id="scene" class="screen">
-  <div class="bar"><button class="icon" id="sceneBack">◀</button><button class="btn" id="skip">スキップ ▶▶</button></div>
+  <div class="bar"><button class="icon back" id="sceneBack">◀ もどる</button><button class="btn" id="skip">スキップ ▶▶</button></div>
   <div id="sbox"><svg id="ssvg" viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet"></svg><div id="cap"></div></div>
 </section>
 
