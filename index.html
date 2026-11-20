@@ -192,7 +192,7 @@
 const CH={jii:{name:'おじいさん',e:'👴'},baa:{name:'おばあさん',e:'👵'},mago:{name:'まご',e:'🧒'},inu:{name:['犬','いぬ'],e:'🐕'},neko:{name:'ねこ',e:'🐈'},nezumi:{name:'ねずみ',e:'🐁'}};
 const ORDER=['jii','baa','mago','inu','neko','nezumi'];
 const SZ={"b_again":[445,98],"b_back":[239,120],"b_clear":[339,120],"b_next":[279,120],"b_set":[212,120],"b_start":[306,120],"beam":[305,79],"bg":[1280,720],"bk_baa":[209,300],"bk_inu":[345,243],"bk_jii":[166,300],"bk_mago":[183,300],"bk_neko":[235,196],"bk_nezumi":[130,132],"fa_baa":[288,300],"fa_inu":[388,259],"fa_jii":[299,300],"fa_mago":[307,300],"fa_neko":[334,229],"fa_nezumi":[203,140],"fa_nezumi2":[222,120],"fc_baa":[128,128],"fc_inu":[128,128],"fc_jii":[128,128],"fc_mago":[128,128],"fc_neko":[128,128],"fc_nezumi":[128,128],"flowers":[284,200],"ft_baa":[128,128],"ft_inu":[128,128],"ft_jii":[128,128],"ft_mago":[128,128],"ft_neko":[128,128],"ft_nezumi":[128,128],"kabu_in":[322,360],"kabu_out":[425,321],"kabu_up":[321,425],"logo":[779,293],"pan":[215,308],"pl_baa":[218,300],"pl_inu":[345,282],"pl_jii":[178,300],"pl_mago":[154,300],"pl_neko":[225,243],"pl_nezumi":[146,156],"sign":[274,193],"st_baa":[125,300],"st_inu":[226,300],"st_jii":[123,300],"st_mago":[103,300],"st_neko":[158,300],"st_nezumi":[138,212],"st_nezumi2":[113,162],"t_dosin":[281,109],"t_spon":[314,219],"t_unto":[301,103]};
-const HREL={st:{jii:1,baa:.93,mago:.8,inu:.62,neko:.55,nezumi:.3,nezumi2:.24},pl:{jii:.98,baa:.92,mago:.8,inu:.58,neko:.5,nezumi:.28},fa:{jii:.84,baa:.82,mago:.72,inu:.38,neko:.32,nezumi:.18,nezumi2:.15},bk:{jii:.98,baa:.92,mago:.8,inu:.52,neko:.42,nezumi:.24}};
+const HREL={st:{jii:1,baa:.93,mago:.8,inu:.62,neko:.55,nezumi:.3,nezumi2:.24},pl:{jii:.98,baa:.92,mago:.8,inu:.58,neko:.5,nezumi:.28},fa:{jii:.84,baa:.82,mago:.6,inu:.38,neko:.32,nezumi:.18,nezumi2:.15},bk:{jii:.98,baa:.92,mago:.8,inu:.52,neko:.42,nezumi:.24}};
 function spr(pose,t,v2){const n=(t==='nezumi'&&v2&&SZ[pose+'_nezumi2'])?'nezumi2':t;const z=SZ[pose+'_'+n];return {href:'img/'+pose+'_'+n+'.webp',ar:z[0]/z[1],rel:HREL[pose][n]}}
 const face=(t,tired)=>`img/${tired?'ft':'fc'}_${t}.webp`;
 /* 画像の先読み */
@@ -362,7 +362,7 @@ function ext(n){
   const A=ext(n.l),R=ext(n.r);n.arm=Math.max(A.b,R.a)+6;
   return {a:n.arm+A.a,b:n.arm+R.b,h:ROPE+beamH(n.arm)*0.5+Math.max(A.h,R.h)+n.arm*Math.sin(MAXT*Math.PI/180)+6};
 }
-function layout(){const e=ext(root);VW=Math.max(300,e.a+e.b+16);X0=e.a+8;VH=e.h+24}
+function layout(){const e=ext(root);VW=Math.max(300,e.a+e.b+16);X0=(VW-(e.a+e.b))/2+e.a;VH=e.h+24}
 
 function numTxt(x,y,size,w){return `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="central" font-size="${size}" font-weight="800" fill="#4a3a28" stroke="#fff" stroke-width="${size*0.18}" paint-order="stroke">${w}</text>`}
 function leafSVG(n,x,y){ // y = 吊り下げ点(輪の上)
